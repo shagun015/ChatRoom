@@ -13,11 +13,11 @@ const Home = () => {
   }
   const navigate=useNavigate()
   function startRegister(){
-    navigate('/register');
+    navigate('/authenticate');
   }
   return(
     <div className={styles.cardWrapper}>
-      <Card title="Welcome to ChatRoom" icon="logo">
+      <Card title="Welcome to ChatRoom" icon='logo'>
         <p className={styles.text}>
           We're working hard to get Codershouse
           ready for everyone! While we wrap up
@@ -26,11 +26,11 @@ const Home = () => {
           breaks
         </p>
         <div>
-          <Button onclick={startRegister} title='Get your username'></Button>
+          <Button onclick={startRegister} title='Start'></Button>
         </div>
         <div className={styles.siginWrapper}>
           <span>Have you a invite text?</span>
-          <Link style={signInLink} to='/login'>Sign in</Link>
+          
         </div>
       </Card>
      
