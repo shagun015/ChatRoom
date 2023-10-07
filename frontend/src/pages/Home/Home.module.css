@@ -1,4 +1,4 @@
-.card{
+/* .card{
   width: 500px;
   max-width: 90%;
   min-height: 300px;
@@ -6,7 +6,7 @@
   padding: 30px;
   border-radius: 20px;
   text-align: center;
-}
+} */
 .headingWrapper{
   display: flex;
   align-items: center;
@@ -14,11 +14,11 @@
   margin-bottom: 30px;
 }
 
-.heading{
+/* .heading{
   font-size: 22px;
   margin-left: 10px;
   font-weight: bold;
-}
+} */
 .text{
   font-size: 22px;
   color: #c4c5c5;

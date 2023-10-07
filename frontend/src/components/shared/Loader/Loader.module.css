@@ -1,0 +1,19 @@
+.message{
+  font-weight: bold;
+  font-size: 20px;
+}
+.CardWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6rem;
+}
+.spinner{
+  margin-bottom: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin{
+  100%{
+    transform : rotate(359deg);
+  }
+}

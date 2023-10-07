@@ -7,20 +7,26 @@ import { verifyOtp } from '../../../http'
 import {useSelector} from 'react-redux'
 import {setAuth} from '../../../store/authSlice'
 import {useDispatch} from 'react-redux'
-
+import Loader from '../../../components/shared/Loader/Loader'
 const StepOtp = () => {
   const [otp,setOtp] = useState(''); 
-  const {phone,hash} = useSelector((state)=> state.auth.otp)
+  const {phone,hash} = useSelector((state)=> state.auth.otp);
+  const [loading,setLoading] = useState(false);
   const dispatch = useDispatch();
   async function submit(){
+    if(!otp || !phone || !hash) return;
     try {
+      setLoading(true);
       const { data }= await verifyOtp({otp,phone,hash});
       console.log(data);
       dispatch(setAuth(data));
     } catch (error) {
       console.log(error)
+    }finally{
+      setLoading(false);
     }
   }
+  if(loading) return <Loader message={"Authentication in progress..."}/>
   return (
     <>
       <div className={styles.cardWrapper}>

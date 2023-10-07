@@ -5,6 +5,7 @@
   padding: 40px;
   border-radius: 20px;
   text-align: center;
+  align-items: center;
 }
 .headingWrapper{
   display: flex;
