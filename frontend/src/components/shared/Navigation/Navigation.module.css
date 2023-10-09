@@ -1,4 +1,4 @@
-.logo{
+img{
   width: 40px;
   height: 40px;
   border-radius: 15px;
@@ -8,4 +8,30 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.avatar{
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #0077FF;
+  margin: 0 20px;
+}
+
+.logoutButton{
+  color: #FFFF;
+  background: #0077FF;
+  border-radius: 12px;
+  height: 30px;
+  width: 70px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+.logoutButton:hover{
+  background: #023672;
+}
+
+.navRight{
+  display: flex;
+  align-items: center;
 }
