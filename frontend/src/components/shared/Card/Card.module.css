@@ -13,7 +13,11 @@
   justify-content: center;
   margin-bottom: 30px;
 }
-
+.headingWrapper img{
+  width: 25px;
+  height: 25px;
+  border-radius: 0px;
+}
 .heading{
   font-size: 22px;
   margin-left: 10px;

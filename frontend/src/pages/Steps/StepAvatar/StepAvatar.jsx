@@ -13,14 +13,14 @@ const StepAvatar = ({onNext}) => {
   const {name,avatar} = useSelector(state=>state.activate);
   const [image,setImage] = useState('/images/logo.png');
   const [loading,setLoading] = useState(false);
-  const [unMounted,setUnMounted] = useState(false);
+  
   const dispatch = useDispatch();
   function captureImage(e){
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = function(){
-      console.log(reader.result);
+      //console.log(reader.result);
       setImage(reader.result);
       dispatch(setAvatar(reader.result));
     };
@@ -32,9 +32,8 @@ const StepAvatar = ({onNext}) => {
     try{
       const {data} = await activate({name,avatar});
       if(data.auth){
-        if(!unMounted){
-          dispatch(setAuth(data));
-        }
+       
+        dispatch(setAuth(data));
       }
       
     }
@@ -46,11 +45,7 @@ const StepAvatar = ({onNext}) => {
     }
   }
 
-  useEffect(()=>{
-    return ()=>{
-      setUnMounted(true);
-    }
-  });
+  
 
   if(loading) return <Loader message={"Activation in progress..."}/>
   return(

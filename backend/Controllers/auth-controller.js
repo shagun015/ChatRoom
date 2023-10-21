@@ -152,7 +152,7 @@ class AuthController{
 
     //response
     const userDto = new UserDto(user)
-    console.log(userDto);
+    
     res.json({user:userDto, auth:true});
 
   }
