@@ -9,6 +9,8 @@
   padding: 20px;
   border-radius: 10px;
   cursor: pointer;
+  min-width: 250px;
+  max-width: 300px;
 }
 
 .avatars img{
@@ -55,5 +57,6 @@
 .singleSpeaker .avatars img{
   position: initial;
 }
+
 
 

@@ -4,20 +4,31 @@ import TextInput from '../shared/TextInput/TextInput'
 import { useState } from 'react'
 import { createRoom as create } from '../../http'
 import {useNavigate} from 'react-router-dom';
+import RoomPopup from '../RoomPopUp/RoomPopUp'
 function AddRoomModel({onClose}) {
 
   const navigate=useNavigate();
 
-  const [roomType,setRoomType] = useState('social');
+  const [roomType,setRoomType] = useState('open');
   const [topic,setTopic] = useState('');
+
+  //
+  const [roomId, setRoomId] = useState('652ee249ae32df67ddadcefd');
+  const [showPopup, setShowPopup] = useState(false);
+  
 
   async function createRoom(){
     //server call
     try {
       if(!topic) return;
       const {data} = await create({topic,roomType});
-      navigate(`/room/${data.id}`)
-      console.log(data);
+      setRoomId(data.id);
+      if(roomType==='social'||roomType==='closed'){
+        setShowPopup(true);
+      }
+      else{
+        navigate(`/room/${data.id}`)
+      }
     } catch (err) {
       console.log(err.message)
     }
@@ -55,6 +66,10 @@ function AddRoomModel({onClose}) {
             <span>Let's go</span>
           </button>
         </div>
+        {showPopup && <RoomPopup roomId={roomId} onClose={() => {
+          setShowPopup(false);
+          navigate(`/room/${roomId}`);
+        }} />}
       </div>
     </div>
   )
