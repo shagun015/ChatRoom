@@ -11,9 +11,7 @@ export const useWebRTC = (roomId, user) => {
     const localMediaStream = useRef(null);
     const socket = useRef(null);
     const clientsRef = useRef([]);
-    useEffect(() => {
-        socket.current = socketInit();
-    }, []);
+
 
     const addNewClient = useCallback(
         (newClient, cb) => {
@@ -31,8 +29,13 @@ export const useWebRTC = (roomId, user) => {
         [clients, setClients]
     );
 
-    // Capture media
+    useEffect(() => {
+        socket.current = socketInit();
+    }, []);
 
+    
+
+    //Handle Join and leave
     useEffect(() => {
         const startCapture = async () => {
             localMediaStream.current =
@@ -65,7 +68,11 @@ export const useWebRTC = (roomId, user) => {
             socket.current.emit(ACTIONS.LEAVE, { roomId });
         };
     }, []);
+    //Handle Join and leave end!
 
+
+
+    // Handle new peer
     useEffect(() => {
         const handleNewPeer = async ({
             peerId,
@@ -144,6 +151,9 @@ export const useWebRTC = (roomId, user) => {
             socket.current.off(ACTIONS.ADD_PEER);
         };
     }, []);
+    // Handle new peer end!
+
+
 
     // Handle ice candidate
     useEffect(() => {
@@ -157,6 +167,9 @@ export const useWebRTC = (roomId, user) => {
             socket.current.off(ACTIONS.ICE_CANDIDATE);
         };
     }, []);
+    // Handle ice candidate end!
+
+
 
     // Handle SDP
     useEffect(() => {
@@ -188,6 +201,9 @@ export const useWebRTC = (roomId, user) => {
             socket.current.off(ACTIONS.SESSION_DESCRIPTION);
         };
     }, []);
+    // Handle SDP end!
+
+    
 
     // Handle remove peer
     useEffect(() => {
@@ -207,17 +223,21 @@ export const useWebRTC = (roomId, user) => {
             socket.current.off(ACTIONS.REMOVE_PEER);
         };
     }, []);
+    // Handle remove peer end!
 
+
+    
     useEffect(() => {
       clientsRef.current = clients;
     }, [clients])
     
 
+
     //listen for mute/unmute
     useEffect(() => {
         
         const setMute = (mute, userId) => {
-            // Ensure connectedClients is initialized as an array
+            
             const connectedClients = JSON.parse(JSON.stringify(clientsRef.current));  
         
             // Find the client index by userId
@@ -241,43 +261,45 @@ export const useWebRTC = (roomId, user) => {
         });
 
         return () => {
-            
+            socket.current.off(ACTIONS.MUTE);
+            socket.current.off(ACTIONS.UN_MUTE);
         }
     }, [])
-    
+    //listen for mute/unmute end!
+   
+
+
 
     const provideRef = (instance, userId) => {
         audioElements.current[userId] = instance;
     };
 
-    //handling mute
     const handleMute = (isMute,userId)=>{
         let settled = false;
-        let interval = setInterval(()=>{
-            if(localMediaStream.current){
-                localMediaStream.current.getTracks()[0].enabled = isMute;
-                if(!isMute){
-                    socket.current.emit(ACTIONS.MUTE,{
-                        roomId,
-                        userId
-                    })
+        if (userId === user.id) {
+            let interval = setInterval(()=>{
+                if(localMediaStream.current){
+                    localMediaStream.current.getTracks()[0].enabled = !isMute;
+                    if(isMute){
+                        socket.current.emit(ACTIONS.MUTE,{
+                            roomId,
+                            userId: user.id
+                        })
+                    }
+                    else{
+                        socket.current.emit(ACTIONS.UN_MUTE,{
+                            roomId,
+                            userId: user.id
+                        })
+                    }
+                    settled=true;
                 }
-                else{
-                    socket.current.emit(ACTIONS.UN_MUTE,{
-                        roomId,
-                        userId
-                    })
+                if(settled){
+                    clearInterval(interval);
                 }
-                settled=true;
-            }
-            if(settled){
-                clearInterval(interval);
-            }
-        },200) 
-        
-        
-    }
+            },200) 
+        }    
+    };
     
-
     return { clients, provideRef,handleMute };
 };
