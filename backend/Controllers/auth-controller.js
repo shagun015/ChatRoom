@@ -26,7 +26,7 @@ class AuthController{
 
     // send otp 
     try {
-      //await OtpService.sendBySms(phone,otp);
+      await OtpService.sendBySms(phone,otp);
       
       res.json({
         hash:`${hash}.${expires}`,
@@ -81,7 +81,7 @@ class AuthController{
     
     await TokenService.storeRefreshToken(refreshToken,user._id);
 
-    console.log(accessToken);
+    //console.log(accessToken);
     res.cookie('refreshToken',refreshToken,{
       maxAge: 1000*60*60*24*30,
       httpOnly: true

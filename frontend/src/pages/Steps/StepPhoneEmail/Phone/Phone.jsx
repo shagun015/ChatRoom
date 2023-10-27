@@ -13,7 +13,7 @@ function Phone({onNext}) {
   async function submit() {
     if(!phoneNumber) return
     const {data} = await sendOtp({ phone: phoneNumber });
-    console.log('Response:', data);
+    //console.log('Response:', data);
     dipatch(setOtp({phone:data.phone,hash:data.hash}));
     onNext();
   }
